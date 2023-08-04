@@ -25,40 +25,47 @@ Requires knowledge of django CMS Versioning
 - Understanding how versioning selects published content
 
 ### Install the following packages
-The following packages are not yet officially released, they need to be installed directly from the repository. We need your help to make packages v4.0 compatible and to provide documentation for the wider community!
+We need your help to make packages v4.0 compatible and to provide documentation for the wider community!
 
-django CMS 4.0
-```
-pip install http://github.com/divio/django-cms/tarball/release/4.0.x#egg=django-cms
+Add the following packages to your requirements or to the dependencies in your `pyproject.toml` file and then
+update your packages.
+```toml
+dependencies = [
+    # …
+    "django-cms>=4.1.0rc3",
+    "djangocms-text-ckeditor>=5.1.3",
+    # "djangocms-history",  # To be removed
+    "djangocms-versioning>=2.0.0rc1",
+    "djangocms-alias>=2.0.0rc1",
+    "djangocms-4-migration",
+]
 ```
 
-djangocms-text-ckeditor
-```
-pip install https://github.com/divio/djangocms-text-ckeditor/tarball/support/4.0.x#egg=djangocms-text-ckeditor
-```
+Add these apps to `INSTALLED_APPS` in your `settings.py`:
 
-djangocms-versioning
-```
-pip install https://github.com/divio/djangocms-versioning/tarball/master#egg=djangocms-versioning
-```
-
-djangocms-alias
-```
-pip install https://github.com/divio/djangocms-alias/tarball/master#egg=djangocms-alias
+```python
+INSTALLED_APPS: list[str] = [
+    # …
+    'cms',  # Must already be there 
+    'djangocms_text_ckeditor',  # Is probably already installed
+    # 'djangocms_history',  # To be removed
+    'djangocms_versioning',
+    'djangocms_alias',
+]
 ```
 
 ## Installation
 **Warning**: This package can leave your DB in a corrupted state if used incorrectly, be sure to backup any databases prior to running any commands listed here!
 
 First install this package in your project
-```
+```python
 pip install djangocms-4-migration
 ```
 
 ## Running
 Simply run the following command to run the data migration. 
 **Note:** This command calls the django migrate command, this is because it has to run commands that save information that would have been lost by running the cms migrations directly.
-```
+```python
 python manage.py cms4_migration
 ```
 
